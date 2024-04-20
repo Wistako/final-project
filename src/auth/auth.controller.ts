@@ -33,7 +33,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Post('/logout')
   async logout(@Response() res) {
-    res.clearCookie('access_token');
+    res.clearCookie('auth', { httpOnly: true });
     res.send({ message: 'Logged out' });
   }
 }

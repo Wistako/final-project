@@ -22,12 +22,27 @@ model Order {
   items       OrderItem[]
 }
 
+enum Size {
+  S
+  M
+  L
+  XL
+}
+
+model ProductSize {
+  id          String      @id @default(uuid())
+  product     Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId   String
+  size        Size
+  stock       Int
+}
+
 model OrderItem {
   id          String      @id @default(uuid())
   product     Product?  @relation(fields: [productId], references: [id], onDelete: SetNull)
   productId   String?
+  size        Size
   quantity    Int
-  total       Float
   order       Order    @relation(fields: [orderId], references: [id])
   orderId     String
 }
@@ -37,6 +52,7 @@ model Product {
   name        String
   category    String
   price       Float
+  sizes       ProductSize[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   orderItems  OrderItem[]
