@@ -47,10 +47,16 @@ model OrderItem {
   orderId     String
 }
 
+enum Category {
+  SHIRT
+  PANTS
+  SWEATSHIRT
+}
+
 model Product {
   id          String      @id @default(uuid())
   name        String
-  category    String
+  category    Category
   price       Float
   sizes       ProductSize[]
   createdAt   DateTime @default(now())
