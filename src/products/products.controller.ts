@@ -20,7 +20,6 @@ import { UpdateStockDto } from './dto/update-stock.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { unlinkSync } from 'fs';
-import { getImageFileType } from 'src/utils/getImageFileType';
 
 @Controller('products')
 export class ProductsController {
@@ -30,6 +29,7 @@ export class ProductsController {
   getAll() {
     return this.productsService.getAll();
   }
+
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
