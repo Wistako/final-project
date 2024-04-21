@@ -1,9 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProductDto } from './dto/create-product.dto';
-import { Product, ProductSize } from '@prisma/client';
+import { Product } from '@prisma/client';
 import { SizeService } from 'src/size/size.service';
 import { UpdateStockDto } from './dto/update-stock.dto';
+import { unlinkSync } from 'fs';
 
 @Injectable()
 export class ProductsService {
@@ -25,20 +26,31 @@ export class ProductsService {
     return prod;
   }
 
-  public create(productData: CreateProductDto): Promise<Product> {
+  public create(productData: CreateProductDto, file: string): Promise<Product> {
     return this.prisma.product.create({
       data: {
         ...productData,
+        image: file,
       },
     });
   }
 
-  public async updateById(id: string, productData: CreateProductDto) {
+  public async updateById(
+    id: string,
+    productData: CreateProductDto,
+    file?: string,
+  ) {
     const product = await this.prisma.product.findUnique({ where: { id } });
     if (!product) throw new NotFoundException('Product not found');
+    if (file) {
+      unlinkSync(`./uploads/${product.image}`);
+    }
     await this.prisma.product.update({
       where: { id },
-      data: productData,
+      data: {
+        ...productData,
+        image: file ? file : product.image,
+      },
     });
     return { message: 'Product updated' };
   }

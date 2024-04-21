@@ -15,6 +15,7 @@ import { ProductsModule } from './products/products.module';
 import { OrdersModule } from './orders/orders.module';
 import { SizeModule } from './size/size.module';
 import configuration from './config/configuration';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -28,6 +29,10 @@ import configuration from './config/configuration';
     ProductsModule,
     OrdersModule,
     SizeModule,
+    MulterModule.register({
+      dest: './uploads',
+      limits: { fileSize: 1000000 },
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
