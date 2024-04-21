@@ -1,7 +1,12 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  NotImplementedException,
+  Param,
+  ParseUUIDPipe,
+  Patch,
   Post,
   Request,
   UseGuards,
@@ -10,6 +15,7 @@ import { OrdersService } from './orders.service';
 import { CreateOrderDTO } from './dto/create-orderDTO.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { AdminAuthGuard } from 'src/auth/admin-auth.guard';
+import { Status } from '@prisma/client';
 
 @Controller('orders')
 export class OrdersController {
@@ -31,5 +37,15 @@ export class OrdersController {
   @Post('/')
   create(@Body() orderData: CreateOrderDTO, @Request() req) {
     return this.ordersService.create(orderData, req.user.id);
+  }
+
+  @UseGuards(JwtAuthGuard, AdminAuthGuard)
+  @Patch('/:id')
+  async update(
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @Body() body: { status: Status },
+  ) {
+    await this.ordersService.updateStatus(id, body);
+    return { message: 'Order updated' };
   }
 }

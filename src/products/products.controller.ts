@@ -13,6 +13,7 @@ import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { AdminAuthGuard } from 'src/auth/admin-auth.guard';
+import { UpdateStockDto } from './dto/update-stock.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -27,6 +28,12 @@ export class ProductsController {
   @Post('/')
   create(@Body() productData: CreateProductDto) {
     return this.productsService.create(productData);
+  }
+
+  @UseGuards(JwtAuthGuard, AdminAuthGuard)
+  @Put('/stock')
+  updateStock(@Body() stock: UpdateStockDto) {
+    return this.productsService.updateStock(stock);
   }
 
   @UseGuards(JwtAuthGuard, AdminAuthGuard)

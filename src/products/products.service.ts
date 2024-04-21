@@ -1,11 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProductDto } from './dto/create-product.dto';
-import { Product } from '@prisma/client';
+import { Product, ProductSize } from '@prisma/client';
+import { SizeService } from 'src/size/size.service';
+import { UpdateStockDto } from './dto/update-stock.dto';
 
 @Injectable()
 export class ProductsService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private sizeService: SizeService,
+  ) {}
 
   public getAll() {
     return this.prisma.product.findMany({ include: { sizes: true } });
@@ -36,6 +41,16 @@ export class ProductsService {
       data: productData,
     });
     return { message: 'Product updated' };
+  }
+
+  public async updateStock(stock: UpdateStockDto) {
+    const { productId } = stock;
+    const product = await this.prisma.product.findUnique({
+      where: { id: productId },
+    });
+    if (!product) throw new NotFoundException('Product not found');
+    await this.sizeService.updateSize(stock);
+    return { message: 'Stock updated' };
   }
 
   public async delete(id: string) {

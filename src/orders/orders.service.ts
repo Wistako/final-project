@@ -1,10 +1,6 @@
-import {
-  ConflictException,
-  Injectable,
-  NotAcceptableException,
-} from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Order } from '@prisma/client';
+import { Order, Status } from '@prisma/client';
 import { CreateOrderDTO } from './dto/create-orderDTO.dto';
 import { ProductsService } from 'src/products/products.service';
 import { SizeService } from 'src/size/size.service';
@@ -19,6 +15,10 @@ export class OrdersService {
 
   public getAll(): Promise<Order[]> {
     return this.prisma.order.findMany();
+  }
+
+  public getById(id: string): Promise<Order> {
+    return this.prisma.order.findUnique({ where: { id } });
   }
 
   public getUserOrders(userId: string): Promise<Order[]> | null {
@@ -46,7 +46,7 @@ export class OrdersService {
         items.map(async (item) => {
           const product = await this.productsService.getProduct(item.productId);
           const sizes = product.sizes.find((size) => size.size === item.size);
-          await this.sizeService.updateSize(sizes.id, {
+          await this.sizeService.updateSize({
             ...sizes,
             stock: sizes.stock - item.quantity,
           });
@@ -63,5 +63,15 @@ export class OrdersService {
     } catch (error) {
       throw new ConflictException('Order could not be created');
     }
+  }
+
+  public async updateStatus(
+    id: string,
+    status: { status: Status },
+  ): Promise<Order> {
+    return await this.prisma.order.update({
+      where: { id },
+      data: { status: status.status },
+    });
   }
 }
