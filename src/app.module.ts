@@ -16,6 +16,7 @@ import { OrdersModule } from './orders/orders.module';
 import { SizeModule } from './size/size.module';
 import configuration from './config/configuration';
 import { MulterModule } from '@nestjs/platform-express';
+import { ImagesModule } from './images/images.module';
 
 @Module({
   imports: [
@@ -33,13 +34,14 @@ import { MulterModule } from '@nestjs/platform-express';
       dest: './uploads',
       limits: { fileSize: 1000000 },
     }),
+    ImagesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {
-    consumer.apply(cors()).forRoutes({
+    consumer.apply(cors({ credentials: true })).forRoutes({
       path: '*',
       method: RequestMethod.ALL,
     });

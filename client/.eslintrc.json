@@ -1,0 +1,33 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "airbnb",
+        "react-app",
+        "react-app/jest",
+        "plugin:prettier/recommended"
+    ],
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "prettier"
+    ],
+    "rules": {
+        "prettier/prettier": "error",
+        "react/prop-types": "off", 
+        "react/jsx-uses-react": "off", // Wyłącza regułę dotyczącą użycia Reacta w JSX
+        "react/function-component-definition": "off", // Wyłącza regułę dotyczącą deklaracji komponentów funkcjonalnych
+        "react/jsx-filename-extension": "off", // Wyłącza regułę dotyczącą rozszerzenia plików dla JSX
+        "react/react-in-jsx-scope": "off", // Wyłącza regułę dotyczącą zasięgu Reacta w JSX
+        "jsx-a11y/label-has-associated-control": "off",
+        "react/jsx-props-no-spreading": "off"
+    }
+}
