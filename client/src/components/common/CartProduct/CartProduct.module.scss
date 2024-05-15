@@ -1,0 +1,58 @@
+@import "../../../styles/settings.scss";
+.wrapper {
+  width: 100%;
+  border-bottom: 1px solid $color-primary;
+
+  textarea {
+    resize: none;
+    width: 70%;
+    height: 100px;
+    margin: 20px 0;
+    padding: 10px;
+    font-size: 18px;
+    border: 1px solid $color-primary;
+  }
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  width: 80%;
+  padding: 20px 20px 10px;
+
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 20px;
+  }
+
+  p {
+    font-size: 18px;
+    margin-right: 20px;
+  }
+
+  .remove {
+    margin: 0;
+    padding: 6px 12px;
+
+    img {
+      margin: 0;
+      width: 20px;
+      height: 22px;
+    }
+
+    &:hover {
+      background-color: $color-error;
+      cursor: pointer;
+    }
+  }
+}

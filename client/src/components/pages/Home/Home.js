@@ -1,4 +1,3 @@
-import style from './Home.module.scss';
 import CategoryBar from '../../features/CategoryBar/CategoryBar';
 
 const Home = () => {

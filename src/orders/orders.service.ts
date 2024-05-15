@@ -4,6 +4,7 @@ import { Order, Status } from '@prisma/client';
 import { CreateOrderDTO } from './dto/create-orderDTO.dto';
 import { ProductsService } from 'src/products/products.service';
 import { SizeService } from 'src/size/size.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class OrdersService {
@@ -11,10 +12,13 @@ export class OrdersService {
     private prisma: PrismaService,
     private sizeService: SizeService,
     private productsService: ProductsService,
+    private configService: ConfigService,
   ) {}
 
   public getAll(): Promise<Order[]> {
-    return this.prisma.order.findMany();
+    return this.prisma.order.findMany({
+      include: { items: { include: { product: true, size: true } } },
+    });
   }
 
   public getById(id: string): Promise<Order> {
@@ -28,40 +32,62 @@ export class OrdersService {
     });
   }
 
-  public async create(data: CreateOrderDTO, userId: string): Promise<Order> {
-    const { items } = data;
+  public async create(data: CreateOrderDTO): Promise<Order> {
+    const { items, ...rest } = data;
+    if (!items || items.length === 0) {
+      throw new ConflictException('Order must have at least one item');
+    }
     try {
       await Promise.all(
         items.map(async (item) => {
           const product = await this.productsService.getProduct(item.productId);
-          const sizes = product.sizes.find((size) => size.size === item.size);
-          if (sizes.stock < item.quantity)
+          const sizes = product.sizes.find(
+            (size) => size.sizeId === item.sizeId,
+          );
+          if (!sizes || sizes.stock < item.quantity) {
+            console.log('Not enough stock');
             throw new ConflictException(
-              `Not enough stock for product ${product.name} in size ${sizes.size}`,
+              `Not enough stock for product ${product.name} in size ${sizes.sizeId}`,
             );
+          }
         }),
       );
-
       await Promise.all(
         items.map(async (item) => {
           const product = await this.productsService.getProduct(item.productId);
-          const sizes = product.sizes.find((size) => size.size === item.size);
+          const sizes = product.sizes.find(
+            (size) => size.sizeId === item.sizeId,
+          );
           await this.sizeService.updateSize({
             ...sizes,
             stock: sizes.stock - item.quantity,
           });
         }),
       );
-      return await this.prisma.order.create({
+
+      let total = 0;
+      for (const item of items) {
+        const product = await this.productsService.getProduct(item.productId);
+        const { price } = product;
+        total += item.quantity * price;
+      }
+      total += this.configService.get<number>('shippingCost');
+
+      const order = await this.prisma.order.create({
         data: {
-          userId,
+          ...rest,
           items: {
             create: items,
           },
+          total,
         },
       });
+      return order;
     } catch (error) {
-      throw new ConflictException('Order could not be created');
+      throw new ConflictException(
+        { ...rest, items: items },
+        'Order could not be created',
+      );
     }
   }
 
@@ -72,6 +98,7 @@ export class OrdersService {
     return await this.prisma.order.update({
       where: { id },
       data: { status: status.status },
+      include: { items: { include: { product: true, size: true } } },
     });
   }
 }

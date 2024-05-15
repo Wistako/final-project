@@ -22,6 +22,14 @@ enum Status {
 
 model Order {
   id          String      @id @default(uuid())
+  email       String
+  name        String
+  surname     String
+  address     String
+  city        String
+  zipCode     String
+  phone       String
+  total       Float
   user        User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
   userId      String?
   status      Status     @default(PENDING)
@@ -30,18 +38,19 @@ model Order {
   items       OrderItem[]
 }
 
-enum Size {
-  S
-  M
-  L
-  XL
+model Size {
+  id          String      @id @default(uuid())
+  name        String
+  products    ProductSize[]
+  orderItems  OrderItem[]
 }
 
 model ProductSize {
   id          String      @id @default(uuid())
   product     Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId   String
-  size        Size
+  size        Size @relation(fields: [sizeId], references: [id], onDelete: Cascade)
+  sizeId      String
   stock       Int
 }
 
@@ -49,22 +58,26 @@ model OrderItem {
   id          String      @id @default(uuid())
   product     Product?  @relation(fields: [productId], references: [id], onDelete: SetNull)
   productId   String?
-  size        Size
+  size        Size? @relation(fields: [sizeId], references: [id], onDelete: SetNull)
+  sizeId      String?
   quantity    Int
+  description String?
   order       Order    @relation(fields: [orderId], references: [id])
   orderId     String
 }
 
-enum Category {
-  SHIRT
-  PANTS
-  SWEATSHIRT
+model Category {
+  id          String      @id @default(uuid())
+  name        String
+  products    Product[]
 }
 
 model Product {
   id          String      @id @default(uuid())
   name        String
-  category    Category
+  description String
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  categoryId  String
   price       Float
   sizes       ProductSize[]
   createdAt   DateTime @default(now())

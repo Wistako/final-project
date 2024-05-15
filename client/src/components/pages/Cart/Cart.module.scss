@@ -1,0 +1,25 @@
+@import '../../../styles/settings.scss';
+
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  margin-top: 20px;
+  border: 1px solid $color-primary;
+  border-radius: 5px;
+  background-color: $color-white;
+  box-shadow: 0 0 10px $color-primary;
+
+  .title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .cart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+}

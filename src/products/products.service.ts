@@ -14,25 +14,42 @@ export class ProductsService {
   ) {}
 
   public getAll() {
-    return this.prisma.product.findMany({ include: { sizes: true } });
+    return this.prisma.product.findMany({
+      include: {
+        sizes: {
+          include: {
+            size: true,
+          },
+        },
+        category: true,
+      },
+    });
   }
 
   public getProduct(id: string) {
     const prod = this.prisma.product.findUnique({
       where: { id },
-      include: { sizes: true },
+      include: { sizes: true, category: true },
     });
     if (!prod) throw new NotFoundException('Product not found');
     return prod;
   }
 
-  public create(productData: CreateProductDto, file: string): Promise<Product> {
-    return this.prisma.product.create({
+  public async create(
+    productData: CreateProductDto,
+    file: string,
+  ): Promise<Product> {
+    const prod = await this.prisma.product.create({
       data: {
         ...productData,
         image: file,
       },
     });
+    const newProdukt = await this.prisma.product.findUnique({
+      where: { id: prod.id },
+      include: { sizes: true, category: true },
+    });
+    return newProdukt;
   }
 
   public async updateById(
@@ -52,7 +69,14 @@ export class ProductsService {
         image: file ? file : product.image,
       },
     });
-    return { message: 'Product updated' };
+    const updatedProd = await this.prisma.product.findUnique({
+      where: { id },
+      include: { sizes: { include: { size: true } }, category: true },
+    });
+    return {
+      message: 'Product updated',
+      product: updatedProd,
+    };
   }
 
   public async updateStock(stock: UpdateStockDto) {
@@ -62,7 +86,11 @@ export class ProductsService {
     });
     if (!product) throw new NotFoundException('Product not found');
     await this.sizeService.updateSize(stock);
-    return { message: 'Stock updated' };
+    const updatedProduct = await this.prisma.product.findUnique({
+      where: { id: productId },
+      include: { sizes: { include: { size: true } }, category: true },
+    });
+    return { message: 'Stock updated', product: updatedProduct };
   }
 
   public async delete(id: string) {

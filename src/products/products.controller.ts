@@ -4,10 +4,12 @@ import {
   Delete,
   Get,
   HttpStatus,
+  NotFoundException,
   Param,
   ParseUUIDPipe,
   Post,
   Put,
+  Res,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -28,6 +30,11 @@ export class ProductsController {
   @Get('/')
   getAll() {
     return this.productsService.getAll();
+  }
+
+  @Get('/:id')
+  getById(@Param('id', new ParseUUIDPipe()) id: string) {
+    return this.productsService.getProduct(id);
   }
 
   @UseInterceptors(
@@ -81,16 +88,21 @@ export class ProductsController {
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() productData: CreateProductDto,
     @UploadedFile() image: Express.Multer.File | undefined,
+    @Res() res,
   ) {
+    if (!this.productsService.getProduct(id))
+      return new NotFoundException('Product not found');
     if (image)
       if (image.mimetype.startsWith('image/') === false) {
         unlinkSync(image.path);
-        return {
-          statusCode: HttpStatus.BAD_REQUEST,
-          message: 'File is not an image',
-        };
+        return res.status(400).json({ message: 'File is not an image' });
       }
-    return this.productsService.updateById(id, productData, image?.filename);
+    const prod = await this.productsService.updateById(
+      id,
+      productData,
+      image?.filename,
+    );
+    return res.status(201).json(prod);
   }
 
   @UseGuards(JwtAuthGuard, AdminAuthGuard)

@@ -1,4 +1,7 @@
 /* eslint-disable default-param-last */
+
+import { fetchOrders } from './orders';
+
 // selectors
 export const getUser = ({ user }) => user;
 
@@ -9,8 +12,15 @@ const createActionName = name => `app/${reducerName}/${name}`;
 const LOG_IN = createActionName('LOG_IN');
 const LOG_OUT = createActionName('LOG_OUT');
 
-export const logIn = payload => ({ type: LOG_IN, payload });
+const logIn = payload => ({ type: LOG_IN, payload });
 export const logOut = () => ({ type: LOG_OUT });
+
+export const logInReq = userData => {
+  return async dispatch => {
+    dispatch(logIn(userData));
+    dispatch(fetchOrders(userData.role));
+  };
+};
 
 // reducer
 const userReducer = (statePart = null, action) => {

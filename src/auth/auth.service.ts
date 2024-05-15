@@ -4,6 +4,7 @@ import { RegisterDTO } from './dto/RegisterDTO.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class AuthService {

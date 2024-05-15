@@ -1,0 +1,61 @@
+@import "../../../styles/settings.scss";
+
+.form {
+  display: grid;
+  margin: 0 auto;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  max-width: 450px;
+
+  h2 {
+    grid-column: span 2; // Rozciąga nagłówek na dwie kolumny
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  label {
+    margin-bottom: 10px;
+  }
+
+  input {
+    padding: 5px;
+    border: 1px solid $color-grey;
+    border-radius: 5px;
+  }
+
+  .error {
+    color: $color-error;
+    margin-top: 5px;
+  }
+
+  button {
+    grid-column: span 2; // Rozciąga przycisk na dwie kolumny
+    justify-self: center; // Wyśrodkowuje przycisk
+  }
+}
+
+.success {
+  background-color: $color-success;
+  color: $color-white;
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  grid-column: span 2;
+}
+
+.fetcherr {
+  background-color: $color-error;
+  color: $color-white;
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  grid-column: span 2;
+}
+
+.loading {
+  grid-column: span 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}

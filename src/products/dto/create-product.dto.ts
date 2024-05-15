@@ -1,18 +1,22 @@
-import { Category } from '@prisma/client';
 import { Transform } from 'class-transformer';
-import { IsEnum, IsNotEmpty, IsString, Length, Min } from 'class-validator';
+import { IsNotEmpty, IsString, IsUUID, Length, Min } from 'class-validator';
 
 export class CreateProductDto {
   @IsNotEmpty()
-  @Length(3, 50)
+  @Length(3, 30)
   @IsString()
   name: string;
 
-  @IsEnum(Category)
-  category: Category;
+  @IsNotEmpty()
+  @IsUUID()
+  categoryId: string;
 
   @IsNotEmpty()
   @Min(1)
   @Transform(({ value }) => parseFloat(value))
   price: number;
+
+  @IsNotEmpty()
+  @Length(10, 255)
+  description: string;
 }

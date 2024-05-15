@@ -1,0 +1,43 @@
+@import '../../../styles/settings.scss';
+
+.order {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 20px;
+  border: 1px solid $color-primary;
+  border-radius: 5px;
+
+  .title {
+    font-weight: 500;
+    margin-bottom: 20px;
+    text-align: center;
+
+    span, button {
+      margin: 0 10px;
+    }
+  }
+
+  .info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .products {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .product {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+}

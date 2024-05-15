@@ -1,13 +1,11 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
-  NotImplementedException,
   Param,
   ParseUUIDPipe,
-  Patch,
   Post,
+  Put,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -35,17 +33,18 @@ export class OrdersController {
 
   @UseGuards(JwtAuthGuard)
   @Post('/')
-  create(@Body() orderData: CreateOrderDTO, @Request() req) {
-    return this.ordersService.create(orderData, req.user.id);
+  create(@Body() orderData: CreateOrderDTO) {
+    console.log('Creating order');
+    return this.ordersService.create(orderData);
   }
 
   @UseGuards(JwtAuthGuard, AdminAuthGuard)
-  @Patch('/:id')
+  @Put('/:id')
   async update(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() body: { status: Status },
   ) {
-    await this.ordersService.updateStatus(id, body);
-    return { message: 'Order updated' };
+    const updatedOrder = await this.ordersService.updateStatus(id, body);
+    return { message: 'Order updated', order: updatedOrder };
   }
 }

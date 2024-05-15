@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import styles from './Login.module.scss';
 import Container from '../../common/Container/Container';
-import { logIn } from '../../../redux/reducers/user';
+import { logInReq } from '../../../redux/reducers/user';
 import { API_URL } from '../../../config';
 
 const Login = () => {
@@ -24,8 +25,8 @@ const Login = () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        crudentials: 'include',
       },
+      crudentials: 'include',
       body: JSON.stringify(data),
     };
 
@@ -33,7 +34,7 @@ const Login = () => {
       .then(res => {
         if (res.status === 201) {
           setStatus('success');
-          res.json().then(({ user }) => dispatch(logIn(user)));
+          res.json().then(({ user }) => dispatch(logInReq(user)));
           setTimeout(() => {
             navigate('/');
           }, 2000);
@@ -46,25 +47,25 @@ const Login = () => {
       .catch(err => setStatus('serverError'));
   };
   return (
-    <Container>
+    <Container className={styles.root}>
       <h1>Login</h1>
       {status === 'success' && (
-        <div>
+        <div className={styles.success}>
           <p>Success! You are now logged in.</p>
         </div>
       )}
       {status === 'clientError' && (
-        <div>
+        <div className={styles.error}>
           <p>Invalid email or password</p>
         </div>
       )}
       {status === 'serverError' && (
-        <div>
+        <div className={styles.error}>
           <p>Server error. Please try again later.</p>
         </div>
       )}
       {status === 'loading' && (
-        <div>
+        <div className={styles.loading}>
           <img src={`${process.env.PUBLIC_URL}/images/spinner.svg`} alt='loading' />
         </div>
       )}
@@ -95,10 +96,10 @@ const Login = () => {
           })}
         />
         <button type='submit'>Login</button>
+        <button type='button'>
+          <Link to='/register'>Register</Link>
+        </button>
       </form>
-      <Link to='/'>Home</Link>
-      <div />
-      <Link to='/register'>Register</Link>
     </Container>
   );
 };

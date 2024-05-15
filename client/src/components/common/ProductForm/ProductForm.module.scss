@@ -1,0 +1,72 @@
+@import '../../../styles/settings.scss';
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  label {
+    width: 272px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+  }
+
+  .btns {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+  }
+
+}
+
+.success, .error, .loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  margin: 10px;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: $color-light;
+}
+
+.success {
+  background-color: $color-success;
+}
+
+.error {
+  background-color: $color-error;
+}
+
+.loading {
+  background-color: $color-loading;
+}

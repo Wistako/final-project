@@ -9,6 +9,17 @@ import Product from './components/pages/Product/Product';
 import Header from './components/layout/Header/Header';
 import Container from './components/common/Container/Container';
 import Register from './components/pages/Register/Register';
+import EditProduct from './components/pages/EditProduct/EditProduct';
+import { logInReq } from './redux/reducers/user';
+import NewProduct from './components/pages/NewProduct/NewProduct';
+import Logout from './components/pages/Logout/Logout';
+import UpdateStock from './components/pages/UpdateStock/UpdateStock';
+import { fetchCategories } from './redux/reducers/category';
+import { fetchSizes } from './redux/reducers/size';
+import Cart from './components/pages/Cart/Cart';
+import Checkout from './components/pages/Checkout/Chceckout';
+import AdminPanel from './components/pages/AdminPanel/AdminPanel';
+import Orders from './components/pages/Orders/Orders';
 
 function App() {
   const dispatch = useDispatch();
@@ -25,30 +36,38 @@ function App() {
       const res = await fetch(`${API_URL}/auth/user`, options);
       if (res.status === 200) {
         const user = await res.json();
-        dispatch(login(user));
+        dispatch(logInReq(user));
       }
     };
-    login();
     dispatch(fetchProducts());
+    dispatch(fetchCategories());
+    dispatch(fetchSizes());
+    login();
   }, [dispatch]);
 
   return (
-    <Container>
+    <>
       <Header />
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/product/:id' element={<Product />} />
-        <Route path='/product/new' element={<div>ABCJDASD</div>} />
-        <Route path='/product/edit/:id' element={<div>ABCJDASD</div>} />
-        <Route path='/product/delete/:id' element={<div>ABCJDASD</div>} />
-        <Route path='/search/:searchPhrase' element={<div>ABCJDASD</div>} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/logout' element={<div>ABCJDASD</div>} />
-        <Route path='/orders' element={<div>ABCJDASD</div>} />
-        <Route path='*' element={<Navigate to='/' />} />
-      </Routes>
-    </Container>
+      <Container>
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/product/:id' element={<Product />} />
+          <Route path='/search/:searchPhrase' element={<div>ABCJDASD</div>} />
+          <Route path='/cart' element={<Cart />} />
+          <Route path='/cart/checkout' element={<Checkout />} />
+          <Route path='/orders' element={<Orders />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+          <Route path='/logout' element={<Logout />} />
+          <Route path='/admin' element={<AdminPanel />} />
+          <Route path='/admin/product/new' element={<NewProduct />} />
+          <Route path='/admin/product/edit/:id' element={<EditProduct />} />
+          <Route path='/admin/product/stock' element={<UpdateStock />} />
+
+          <Route path='*' element={<Navigate to='/' />} />
+        </Routes>
+      </Container>
+    </>
   );
 }
 

@@ -1,0 +1,20 @@
+@import '../../../../styles/settings.scss';
+
+.root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: $color-secondary;
+  font-size: 1.2rem;
+  color: $color-light;
+  font-weight: 700;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}

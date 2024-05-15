@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import styles from './Register.module.scss';
 import { API_URL } from '../../../config';
 import Container from '../../common/Container/Container';
 
@@ -36,31 +37,31 @@ const Register = () => {
       .catch(err => setStatus('serverError'));
   };
   return (
-    <Container>
+    <Container className={styles.root}>
       <h1>Register</h1>
       {status === 'success' && (
-        <div>
+        <div className={styles.success}>
           <p>Success! You are now logged in.</p>
           <Link to='/login'>Login</Link>
         </div>
       )}
       {status === 'clientError' && (
-        <div>
+        <div className={styles.error}>
           <p>Invalid email or password</p>
         </div>
       )}
       {status === 'loginError' && (
-        <div>
+        <div className={styles.error}>
           <p>Email already exists</p>
         </div>
       )}
       {status === 'serverError' && (
-        <div>
+        <div className={styles.error}>
           <p>Server error. Please try again later.</p>
         </div>
       )}
       {status === 'loading' && (
-        <div>
+        <div className={styles.loading}>
           <img src={`${process.env.PUBLIC_URL}/images/spinner.svg`} alt='loading' />
         </div>
       )}

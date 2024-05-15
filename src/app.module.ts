@@ -17,9 +17,15 @@ import { SizeModule } from './size/size.module';
 import configuration from './config/configuration';
 import { MulterModule } from '@nestjs/platform-express';
 import { ImagesModule } from './images/images.module';
+import { CategoryModule } from './category/category.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '../../', 'client', 'build'),
+    }),
     PrismaModule,
     ConfigModule.forRoot({
       load: [configuration],
@@ -35,6 +41,7 @@ import { ImagesModule } from './images/images.module';
       limits: { fileSize: 1000000 },
     }),
     ImagesModule,
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [AppService],
