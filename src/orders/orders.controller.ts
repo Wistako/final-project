@@ -7,6 +7,7 @@ import {
   ParseUUIDPipe,
   Post,
   Put,
+  Req,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -32,11 +33,10 @@ export class OrdersController {
     return this.ordersService.getUserOrders(req.user.id);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post('/')
-  create(@Body() orderData: CreateOrderDTO) {
+  create(@Body() orderData: CreateOrderDTO, @Req() req) {
     console.log('Creating order');
-    return this.ordersService.create(orderData);
+    return this.ordersService.create(orderData, req.user.id);
   }
 
   @UseGuards(JwtAuthGuard, AdminAuthGuard)
