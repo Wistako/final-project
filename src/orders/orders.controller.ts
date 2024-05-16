@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  NotFoundException,
   Param,
   ParseUUIDPipe,
   Post,
@@ -44,6 +45,8 @@ export class OrdersController {
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() body: { status: Status },
   ) {
+    if (!this.ordersService.getById(id))
+      return new NotFoundException('Order not found');
     const updatedOrder = await this.ordersService.updateStatus(id, body);
     return { message: 'Order updated', order: updatedOrder };
   }
