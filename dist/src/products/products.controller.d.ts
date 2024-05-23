@@ -22,6 +22,11 @@ export declare class ProductsController {
             sizeId: string;
             stock: number;
         })[];
+        images: {
+            id: string;
+            name: string;
+            productId: string;
+        }[];
     } & {
         id: string;
         name: string;
@@ -30,7 +35,6 @@ export declare class ProductsController {
         price: number;
         createdAt: Date;
         updatedAt: Date;
-        image: string;
     })[]>;
     getById(id: string): import(".prisma/client").Prisma.Prisma__ProductClient<{
         category: {
@@ -43,6 +47,11 @@ export declare class ProductsController {
             sizeId: string;
             stock: number;
         }[];
+        images: {
+            id: string;
+            name: string;
+            productId: string;
+        }[];
     } & {
         id: string;
         name: string;
@@ -51,7 +60,6 @@ export declare class ProductsController {
         price: number;
         createdAt: Date;
         updatedAt: Date;
-        image: string;
     }, null, import("@prisma/client/runtime/library").DefaultArgs>;
     create(productData: CreateProductDto, image: Express.Multer.File | undefined): Promise<{
         id: string;
@@ -61,7 +69,6 @@ export declare class ProductsController {
         price: number;
         createdAt: Date;
         updatedAt: Date;
-        image: string;
     } | {
         statusCode: HttpStatus;
         message: string;
@@ -84,6 +91,11 @@ export declare class ProductsController {
                 sizeId: string;
                 stock: number;
             })[];
+            images: {
+                id: string;
+                name: string;
+                productId: string;
+            }[];
         } & {
             id: string;
             name: string;
@@ -92,10 +104,9 @@ export declare class ProductsController {
             price: number;
             createdAt: Date;
             updatedAt: Date;
-            image: string;
         };
     }>;
-    updateById(id: string, productData: CreateProductDto, image: Express.Multer.File | undefined, res: any): Promise<any>;
+    updateById(id: string, productData: CreateProductDto, res: any): Promise<any>;
     delete(id: string): Promise<{
         message: string;
     }>;

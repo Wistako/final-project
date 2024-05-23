@@ -35,7 +35,7 @@ export declare class OrdersController {
         createdAt: Date;
         updatedAt: Date;
     }[]>;
-    create(orderData: CreateOrderDTO): Promise<{
+    create(orderData: CreateOrderDTO, req: any): Promise<{
         id: string;
         email: string;
         name: string;

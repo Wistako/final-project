@@ -41,7 +41,9 @@ let AuthController = class AuthController {
         res.clearCookie('auth', { httpOnly: true });
         res.send({ message: 'Logged out' });
     }
-    async getUser() {
+    async getUser(req) {
+        if (process.env.NODE_ENV === 'production')
+            return req.user;
         const user = await this.userService.getAll();
         return user[0];
     }
@@ -74,8 +76,9 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)('/user'),
+    __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "getUser", null);
 exports.AuthController = AuthController = __decorate([

@@ -19,8 +19,9 @@ const ProductForm = ({ product }) => {
   const [newName, setName] = useState(product ? product.name : '');
   const [newPrice, setPrice] = useState(product ? product.price : '');
   const [newCategory, setCategory] = useState(product ? product.category : '');
-  const [newImage, setImage] = useState('');
+  const [newDescription, setDescription] = useState(product ? product.description : '');
   const [status, setStatus] = useState('');
+  const [newImage, setImage] = useState('');
 
   const {
     register,
@@ -42,7 +43,8 @@ const ProductForm = ({ product }) => {
     fd.append('name', newName);
     fd.append('price', newPrice);
     fd.append('categoryId', newCategory);
-    fd.append('image', newImage);
+    fd.append('description', newDescription);
+    if (!product) fd.append('image', newImage);
 
     const id = product ? product.id : null;
     const options = {
@@ -163,7 +165,10 @@ const ProductForm = ({ product }) => {
         <input
           {...register('price', {
             required: true,
-            valueAsNumber: { value: true, message: 'Price is required and must be a number' },
+            valueAsNumber: {
+              value: true,
+              message: 'Price is required and must be a number',
+            },
           })}
           type='text'
           value={newPrice}
@@ -187,9 +192,15 @@ const ProductForm = ({ product }) => {
         </select>
       </label>
       <label>
-        Image {product ? '(optional)' : ''}
-        <input type='file' onChange={e => setImage(e.target.files[0])} />
+        Description
+        <textarea value={newDescription} onChange={e => setDescription(e.target.value)} />
       </label>
+      {!product && (
+        <label>
+          Image
+          <input type='file' onChange={e => setImage(e.target.files[0])} />
+        </label>
+      )}
       <div className={styles.btns}>
         {product && <SecondaryButton onClick={hanldeDelete}>Delete</SecondaryButton>}
         <PrimaryButton type='submit'>{product ? 'Edit' : 'Add'}</PrimaryButton>

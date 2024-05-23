@@ -47,7 +47,7 @@ let OrdersService = class OrdersService {
             include: { items: true },
         });
     }
-    async create(data) {
+    async create(data, userId) {
         const { items } = data, rest = __rest(data, ["items"]);
         if (!items || items.length === 0) {
             throw new common_1.ConflictException('Order must have at least one item');
@@ -76,7 +76,7 @@ let OrdersService = class OrdersService {
             const order = await this.prisma.order.create({
                 data: Object.assign(Object.assign({}, rest), { items: {
                         create: items,
-                    }, total }),
+                    }, total, userId: userId ? userId : null }),
             });
             return order;
         }

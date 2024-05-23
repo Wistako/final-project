@@ -83,7 +83,14 @@ model Product {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   orderItems  OrderItem[]
-  image       String
+  images       Image[]
+}
+
+model Image {
+  id          String      @id @default(uuid())
+  name         String
+  product     Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId   String
 }
 
 enum Role {

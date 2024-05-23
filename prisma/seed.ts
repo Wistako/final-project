@@ -1,6 +1,26 @@
 import { PrismaClient } from '@prisma/client';
 const db = new PrismaClient();
 
+function getImage() {
+  return [
+    {
+      id: '2483b6cb-ce72-4b19-94fb-6d2069504ce7',
+      name: '1713683467769-bed_6.jpg',
+      productId: '18edf59c-fb86-4330-b43b-28ab8594a192',
+    },
+    {
+      id: '093c8945-3b67-46d1-ae4e-90218e600bd7',
+      name: '1713683586246-bed_6.jpg',
+      productId: '6da0a7fd-e74e-4bb4-a269-a61408622f4b',
+    },
+    {
+      id: '7dae36cf-5679-4163-aca9-efa51c15a2a3',
+      name: '1713683600555-bed_6.jpg',
+      productId: '9f7ce974-f428-4af0-9d52-e091d0b1a658',
+    },
+  ];
+}
+
 function getProduct() {
   return [
     {
@@ -10,7 +30,6 @@ function getProduct() {
       price: 100,
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      image: '1713683467769-bed_6.jpg',
     },
     {
       id: '6da0a7fd-e74e-4bb4-a269-a61408622f4b',
@@ -19,7 +38,6 @@ function getProduct() {
       price: 200,
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      image: '1713683586246-bed_6.jpg',
     },
     {
       id: '9f7ce974-f428-4af0-9d52-e091d0b1a658',
@@ -28,7 +46,6 @@ function getProduct() {
       price: 300,
       description:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      image: '1713683600555-bed_6.jpg',
     },
   ];
 }
@@ -132,6 +149,11 @@ async function seed() {
   await Promise.all(
     getProduct().map(async (product) => {
       await db.product.create({ data: product });
+    }),
+  );
+  await Promise.all(
+    getImage().map(async (image) => {
+      await db.image.create({ data: image });
     }),
   );
 

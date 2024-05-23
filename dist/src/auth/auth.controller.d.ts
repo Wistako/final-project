@@ -14,9 +14,5 @@ export declare class AuthController {
     }>;
     login(req: any, res: any): Promise<void>;
     logout(res: any): Promise<void>;
-    getUser(): Promise<{
-        id: string;
-        email: string;
-        role: import(".prisma/client").$Enums.Role;
-    }>;
+    getUser(req: any): Promise<any>;
 }

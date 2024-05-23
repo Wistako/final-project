@@ -45,15 +45,8 @@ let ProductsController = class ProductsController {
     updateStock(stock) {
         return this.productsService.updateStock(stock);
     }
-    async updateById(id, productData, image, res) {
-        if (!this.productsService.getProduct(id))
-            return new common_1.NotFoundException('Product not found');
-        if (image)
-            if (image.mimetype.startsWith('image/') === false) {
-                (0, fs_1.unlinkSync)(image.path);
-                return res.status(400).json({ message: 'File is not an image' });
-            }
-        const prod = await this.productsService.updateById(id, productData, image === null || image === void 0 ? void 0 : image.filename);
+    async updateById(id, productData, res) {
+        const prod = await this.productsService.updateById(id, productData);
         return res.status(201).json(prod);
     }
     delete(id) {
@@ -101,23 +94,13 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ProductsController.prototype, "updateStock", null);
 __decorate([
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image', {
-        storage: (0, multer_1.diskStorage)({
-            destination: './uploads',
-            filename: (req, file, cb) => {
-                const filename = `${Date.now()}-${file.originalname}`;
-                cb(null, filename);
-            },
-        }),
-    })),
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard, admin_auth_guard_1.AdminAuthGuard),
     (0, common_1.Put)('/:id'),
     __param(0, (0, common_1.Param)('id', new common_1.ParseUUIDPipe())),
     __param(1, (0, common_1.Body)()),
-    __param(2, (0, common_1.UploadedFile)()),
-    __param(3, (0, common_1.Res)()),
+    __param(2, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, create_product_dto_1.CreateProductDto, Object, Object]),
+    __metadata("design:paramtypes", [String, create_product_dto_1.CreateProductDto, Object]),
     __metadata("design:returntype", Promise)
 ], ProductsController.prototype, "updateById", null);
 __decorate([

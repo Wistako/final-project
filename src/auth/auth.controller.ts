@@ -48,7 +48,9 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/user')
-  async getUser() {
+  async getUser(@Req() req) {
+    if (process.env.NODE_ENV === 'production') return req.user;
+
     const user = await this.userService.getAll();
     return user[0];
   }

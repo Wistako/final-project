@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import styles from './Product.module.scss';
-import { getProductById } from '../../../redux/reducers/products';
-import { IMGS_URL } from '../../../config';
+import { getProductById, fetchProducts } from '../../../redux/reducers/products';
+import { API_URL, IMGS_URL } from '../../../config';
 import AmountWidget from '../../common/AmountWidget/AmountWidget';
 import { getUser } from '../../../redux/reducers/user';
 import PrimaryButton from '../../common/buttons/PrimaryButton/PrimaryButton';
 import { addToCart } from '../../../redux/reducers/cart';
+import Modal from '../../common/Modal/Modal';
 
 const Product = () => {
   const navigate = useNavigate();
@@ -19,6 +20,9 @@ const Product = () => {
   const [currentSize, setCurrentSize] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [status, setStatus] = useState('idle');
+  const [activeImage, setActiveImage] = useState(0);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [file, setFile] = useState(null);
 
   useEffect(() => {
     return () => {
@@ -38,6 +42,42 @@ const Product = () => {
     dispatch(addToCart({ product, quantity, size: sizes.find(s => s.id === currentSize) }));
     setStatus('added');
   };
+  const handleAddPhoto = async e => {
+    e.preventDefault();
+
+    const fd = new FormData();
+    fd.append('image', file);
+
+    const options = {
+      method: 'POST',
+      body: fd,
+    };
+
+    if (process.env.NODE_ENV === 'production') {
+      options.credentials = 'include';
+    }
+    const url = `${API_URL}/images/${id}`;
+
+    await fetch(url, options);
+    setModalOpen(false);
+    dispatch(fetchProducts());
+  };
+
+  const handleDeletePhoto = async () => {
+    if (images.length === 1) return;
+    const options = {
+      method: 'DELETE',
+    };
+
+    if (process.env.NODE_ENV === 'production') {
+      options.credentials = 'include';
+    }
+    const url = `${API_URL}/images/${images[activeImage].id}`;
+
+    await fetch(url, options);
+    setActiveImage(0);
+    dispatch(fetchProducts());
+  };
 
   if (!product)
     return (
@@ -47,7 +87,7 @@ const Product = () => {
       </div>
     );
 
-  const { name, image, price, sizes, description } = product;
+  const { name, images, price, sizes, description } = product;
   return (
     <section className={styles.root}>
       {user && user.role === 'ADMIN' && (
@@ -55,10 +95,42 @@ const Product = () => {
           <PrimaryButton onClick={() => navigate(`/product/edit/${id}`)}>
             Edit product
           </PrimaryButton>
+          <PrimaryButton onClick={() => setModalOpen(true)}>Add photo</PrimaryButton>
         </div>
       )}
+      {modalOpen && (
+        <Modal onClose={() => setModalOpen(false)}>
+          <form className={styles.form} onSubmit={handleAddPhoto}>
+            <label>
+              <input type='file' onChange={e => setFile(e.target.files[0])} />
+            </label>
+            <PrimaryButton type='submit' className={styles.btns}>
+              Upload
+            </PrimaryButton>
+          </form>
+        </Modal>
+      )}
       <div className={styles.flexRow}>
-        <img className={styles.image} src={IMGS_URL + image} alt={name} />
+        <div className={styles.images}>
+          {user.role === 'ADMIN' && (
+            <button type='button' className={styles.delete} onClick={handleDeletePhoto}>
+              X
+            </button>
+          )}
+          <img className={styles.image} src={IMGS_URL + images[activeImage].name} alt={name} />
+          <div className={styles.thumbs}>
+            {images.map((img, index) => (
+              // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
+              <img
+                key={img.id}
+                className={`${styles.thumb} ${activeImage === index ? styles.active : ''}`}
+                src={IMGS_URL + img.name}
+                alt={name}
+                onClick={() => setActiveImage(index)}
+              />
+            ))}
+          </div>
+        </div>
         <div className={styles.content}>
           <h3>{name}</h3>
           <h2>${price.toString().replace('.', ',')} USD</h2>

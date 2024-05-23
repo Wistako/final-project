@@ -5,11 +5,11 @@ import PrimaryButton from '../buttons/PrimaryButton/PrimaryButton';
 
 const ProductCard = ({ product }) => {
   const navigate = useNavigate();
-  const { id, name, price, image } = product;
+  const { id, name, price, images } = product;
 
   return (
     <div className={styles.wrapper}>
-      <img className={styles.image} src={IMGS_URL + image} alt={name} />
+      <img className={styles.image} src={IMGS_URL + images[0].name} alt={name} />
       <div className={styles.description}>
         <div>
           <h3 className={styles.title}>{name}</h3>

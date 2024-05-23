@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   HttpStatus,
-  NotFoundException,
   Param,
   ParseUUIDPipe,
   Post,
@@ -71,37 +70,14 @@ export class ProductsController {
     return this.productsService.updateStock(stock);
   }
 
-  @UseInterceptors(
-    FileInterceptor('image', {
-      storage: diskStorage({
-        destination: './uploads',
-        filename: (req, file, cb) => {
-          const filename = `${Date.now()}-${file.originalname}`;
-          cb(null, filename);
-        },
-      }),
-    }),
-  )
   @UseGuards(JwtAuthGuard, AdminAuthGuard)
   @Put('/:id')
   async updateById(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() productData: CreateProductDto,
-    @UploadedFile() image: Express.Multer.File | undefined,
     @Res() res,
   ) {
-    if (!this.productsService.getProduct(id))
-      return new NotFoundException('Product not found');
-    if (image)
-      if (image.mimetype.startsWith('image/') === false) {
-        unlinkSync(image.path);
-        return res.status(400).json({ message: 'File is not an image' });
-      }
-    const prod = await this.productsService.updateById(
-      id,
-      productData,
-      image?.filename,
-    );
+    const prod = await this.productsService.updateById(id, productData);
     return res.status(201).json(prod);
   }
 

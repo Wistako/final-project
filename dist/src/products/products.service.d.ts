@@ -3,10 +3,12 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { Product } from '@prisma/client';
 import { SizeService } from 'src/size/size.service';
 import { UpdateStockDto } from './dto/update-stock.dto';
+import { ImagesService } from 'src/images/images.service';
 export declare class ProductsService {
     private prisma;
     private sizeService;
-    constructor(prisma: PrismaService, sizeService: SizeService);
+    private imageService;
+    constructor(prisma: PrismaService, sizeService: SizeService, imageService: ImagesService);
     getAll(): import(".prisma/client").Prisma.PrismaPromise<({
         category: {
             id: string;
@@ -23,6 +25,11 @@ export declare class ProductsService {
             sizeId: string;
             stock: number;
         })[];
+        images: {
+            id: string;
+            name: string;
+            productId: string;
+        }[];
     } & {
         id: string;
         name: string;
@@ -31,7 +38,6 @@ export declare class ProductsService {
         price: number;
         createdAt: Date;
         updatedAt: Date;
-        image: string;
     })[]>;
     getProduct(id: string): import(".prisma/client").Prisma.Prisma__ProductClient<{
         category: {
@@ -44,6 +50,11 @@ export declare class ProductsService {
             sizeId: string;
             stock: number;
         }[];
+        images: {
+            id: string;
+            name: string;
+            productId: string;
+        }[];
     } & {
         id: string;
         name: string;
@@ -52,10 +63,9 @@ export declare class ProductsService {
         price: number;
         createdAt: Date;
         updatedAt: Date;
-        image: string;
     }, null, import("@prisma/client/runtime/library").DefaultArgs>;
     create(productData: CreateProductDto, file: string): Promise<Product>;
-    updateById(id: string, productData: CreateProductDto, file?: string): Promise<{
+    updateById(id: string, productData: CreateProductDto): Promise<{
         message: string;
         product: {
             category: {
@@ -73,6 +83,11 @@ export declare class ProductsService {
                 sizeId: string;
                 stock: number;
             })[];
+            images: {
+                id: string;
+                name: string;
+                productId: string;
+            }[];
         } & {
             id: string;
             name: string;
@@ -81,7 +96,6 @@ export declare class ProductsService {
             price: number;
             createdAt: Date;
             updatedAt: Date;
-            image: string;
         };
     }>;
     updateStock(stock: UpdateStockDto): Promise<{
@@ -102,6 +116,11 @@ export declare class ProductsService {
                 sizeId: string;
                 stock: number;
             })[];
+            images: {
+                id: string;
+                name: string;
+                productId: string;
+            }[];
         } & {
             id: string;
             name: string;
@@ -110,7 +129,6 @@ export declare class ProductsService {
             price: number;
             createdAt: Date;
             updatedAt: Date;
-            image: string;
         };
     }>;
     delete(id: string): Promise<{

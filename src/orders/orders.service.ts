@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, ParseUUIDPipe } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Order, Status } from '@prisma/client';
 import { CreateOrderDTO } from './dto/create-orderDTO.dto';
