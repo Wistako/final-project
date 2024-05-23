@@ -112,7 +112,7 @@ const Product = () => {
       )}
       <div className={styles.flexRow}>
         <div className={styles.images}>
-          {user.role === 'ADMIN' && (
+          {user && user.role === 'ADMIN' && (
             <button type='button' className={styles.delete} onClick={handleDeletePhoto}>
               X
             </button>
