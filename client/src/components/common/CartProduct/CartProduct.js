@@ -7,6 +7,7 @@ import { changeDescription, changeQuantity, removeFromCart } from '../../../redu
 
 const CartProduct = ({ product, quantity, size, id, description }) => {
   const dispatch = useDispatch();
+
   const price = product.price * quantity;
 
   const handleChange = value => {

@@ -3,16 +3,25 @@ import { API_URL } from '../../config';
 
 // selectors
 export const getProducts = ({ products }) => products.data;
+
 export const getProductById = ({ products }, productId) => {
   if (products.data.length < 1) return null;
   return products.data.find(product => product.id === productId);
 };
+
 export const getStockBySize = ({ products }, productId, sizeId) => {
   const product = products.data.find(product => product.id === productId);
   if (!product) return null;
   const size = product.sizes.find(size => size.id === sizeId);
   return size ? size.stock : null;
 };
+
+export const getDefPhotoByProductId = ({ products }, productId) => {
+  const product = products.data.find(product => product.id === productId);
+  if (!product) return null;
+  return product.images[0].name;
+};
+
 // action name creator
 const reducerName = 'products';
 const createActionName = name => `app/${reducerName}/${name}`;
