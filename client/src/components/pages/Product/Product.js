@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import styles from './Product.module.scss';
-import { getProductById, fetchProducts } from '../../../redux/reducers/products';
+import { getProductById, fetchProducts, getStockBySize } from '../../../redux/reducers/products';
 import { API_URL, IMGS_URL } from '../../../config';
 import AmountWidget from '../../common/AmountWidget/AmountWidget';
 import { getUser } from '../../../redux/reducers/user';
@@ -23,25 +23,41 @@ const Product = () => {
   const [activeImage, setActiveImage] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
   const [file, setFile] = useState(null);
+  const stock = useSelector(state => getStockBySize(state, id, currentSize));
 
   useEffect(() => {
+    if (product && product.sizes.length > 0) {
+      setCurrentSize(product.sizes[0].id);
+    }
     return () => {
       setCurrentSize(null);
       setQuantity(1);
       setStatus('idle');
     };
-  }, [id]);
+  }, [product]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setStatus('idle');
+    }, 4000);
+  }, [status]);
+
+  useEffect(() => {
+    setQuantity(1);
+  }, [currentSize]);
 
   const changeQuantity = value => {
     const parsedValue = parseInt(value, 10);
-    if (parsedValue < 1 || parsedValue > 20) return;
+    if (parsedValue < 1 || parsedValue > stock) return;
     setQuantity(value);
   };
+
   const handleAddToCart = () => {
     if (!currentSize) return;
     dispatch(addToCart({ product, quantity, size: sizes.find(s => s.id === currentSize) }));
     setStatus('added');
   };
+
   const handleAddPhoto = async e => {
     e.preventDefault();
 
@@ -163,7 +179,10 @@ const Product = () => {
             <span>${(price * quantity).toString().replace('.', ',')} </span>
           </div>
           <div className={styles.buttons}>
-            <PrimaryButton onClick={handleAddToCart}>
+            <PrimaryButton
+              onClick={handleAddToCart}
+              className={status === 'idle' ? '' : styles.added}
+            >
               {status === 'idle' ? 'Add to cart' : 'Added'}
             </PrimaryButton>
           </div>

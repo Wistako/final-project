@@ -7,6 +7,12 @@ export const getProductById = ({ products }, productId) => {
   if (products.data.length < 1) return null;
   return products.data.find(product => product.id === productId);
 };
+export const getStockBySize = ({ products }, productId, sizeId) => {
+  const product = products.data.find(product => product.id === productId);
+  if (!product) return null;
+  const size = product.sizes.find(size => size.id === sizeId);
+  return size ? size.stock : null;
+};
 // action name creator
 const reducerName = 'products';
 const createActionName = name => `app/${reducerName}/${name}`;

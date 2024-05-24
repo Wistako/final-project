@@ -36,9 +36,29 @@ const persistedState = localStorage.getItem('cart') ? JSON.parse(localStorage.ge
 const cartReducer = (statePart = persistedState, action) => {
   let newState;
   switch (action.type) {
-    case ADD_TO_CART:
-      newState = [...statePart, { ...action.payload, id: shortid() }];
+    case ADD_TO_CART: {
+      if (
+        statePart.find(
+          item =>
+            item.product.id === action.payload.product.id &&
+            item.size.sizeId === action.payload.size.sizeId
+        )
+      ) {
+        newState = statePart.map(item => {
+          if (
+            item.product.id === action.payload.product.id &&
+            item.size.sizeId === action.payload.size.sizeId
+          ) {
+            console.log(action.payload.quantity);
+            return { ...item, quantity: item.quantity + action.payload.quantity };
+          }
+          return item;
+        });
+      } else {
+        newState = [...statePart, { ...action.payload, id: shortid() }];
+      }
       break;
+    }
     case REMOVE_FROM_CART:
       newState = statePart.filter(item => item.id !== action.payload.id);
       break;
