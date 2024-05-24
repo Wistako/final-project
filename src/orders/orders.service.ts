@@ -32,7 +32,7 @@ export class OrdersService {
     });
   }
 
-  public async create(data: CreateOrderDTO, userId: string): Promise<Order> {
+  public async create(data: CreateOrderDTO, userId?: string): Promise<Order> {
     const { items, ...rest } = data;
     if (!items || items.length === 0) {
       throw new ConflictException('Order must have at least one item');

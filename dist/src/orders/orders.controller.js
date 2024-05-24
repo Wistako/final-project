@@ -18,6 +18,7 @@ const orders_service_1 = require("./orders.service");
 const create_orderDTO_dto_1 = require("./dto/create-orderDTO.dto");
 const jwt_auth_guard_1 = require("../auth/jwt-auth.guard");
 const admin_auth_guard_1 = require("../auth/admin-auth.guard");
+const optionalJwtAuthGuard_1 = require("../auth/optionalJwtAuthGuard");
 let OrdersController = class OrdersController {
     constructor(ordersService) {
         this.ordersService = ordersService;
@@ -29,8 +30,9 @@ let OrdersController = class OrdersController {
         return this.ordersService.getUserOrders(req.user.id);
     }
     create(orderData, req) {
+        var _a;
         console.log('Creating order');
-        return this.ordersService.create(orderData, req.user.id);
+        return this.ordersService.create(orderData, (_a = req.user) === null || _a === void 0 ? void 0 : _a.id);
     }
     async update(id, body) {
         if (!this.ordersService.getById(id))
@@ -56,6 +58,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], OrdersController.prototype, "getUserOrders", null);
 __decorate([
+    (0, common_1.UseGuards)(optionalJwtAuthGuard_1.OptionalJwtAuthGuard),
     (0, common_1.Post)('/'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Req)()),

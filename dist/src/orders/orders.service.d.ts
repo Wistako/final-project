@@ -13,7 +13,7 @@ export declare class OrdersService {
     getAll(): Promise<Order[]>;
     getById(id: string): Promise<Order>;
     getUserOrders(userId: string): Promise<Order[]> | null;
-    create(data: CreateOrderDTO, userId: string): Promise<Order>;
+    create(data: CreateOrderDTO, userId?: string): Promise<Order>;
     updateStatus(id: string, status: {
         status: Status;
     }): Promise<Order>;

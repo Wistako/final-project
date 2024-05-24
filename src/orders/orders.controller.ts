@@ -16,6 +16,7 @@ import { CreateOrderDTO } from './dto/create-orderDTO.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { AdminAuthGuard } from 'src/auth/admin-auth.guard';
 import { Status } from '@prisma/client';
+import { OptionalJwtAuthGuard } from 'src/auth/optionalJwtAuthGuard';
 
 @Controller('orders')
 export class OrdersController {
@@ -33,10 +34,11 @@ export class OrdersController {
     return this.ordersService.getUserOrders(req.user.id);
   }
 
+  @UseGuards(OptionalJwtAuthGuard)
   @Post('/')
   create(@Body() orderData: CreateOrderDTO, @Req() req) {
     console.log('Creating order');
-    return this.ordersService.create(orderData, req.user.id);
+    return this.ordersService.create(orderData, req.user?.id);
   }
 
   @UseGuards(JwtAuthGuard, AdminAuthGuard)

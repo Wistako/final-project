@@ -17,7 +17,7 @@ const CartProduct = ({ product, quantity, size, id, description }) => {
   return (
     <div key={id} className={styles.wrapper}>
       <div className={styles.item}>
-        <img src={`${IMGS_URL}${product.image}`} alt={product.name} />
+        <img src={`${IMGS_URL}${product.images[0].name}`} alt={product.name} />
         <p>{product.name}</p>
         <p>{size.size.name}</p>
         <p>${isNaN(price) ? '0' : price}</p>
