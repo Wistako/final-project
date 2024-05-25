@@ -27,10 +27,12 @@ let OrdersController = class OrdersController {
         return this.ordersService.getAll();
     }
     getUserOrders(req) {
+        console.log(req.user);
         return this.ordersService.getUserOrders(req.user.id);
     }
     create(orderData, req) {
         var _a;
+        console.log(req.user);
         console.log('Creating order');
         return this.ordersService.create(orderData, (_a = req.user) === null || _a === void 0 ? void 0 : _a.id);
     }

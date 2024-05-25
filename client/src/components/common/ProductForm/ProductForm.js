@@ -121,6 +121,15 @@ const ProductForm = ({ product }) => {
     );
   }
 
+  if (status === 'loading')
+    return (
+      <div className={styles.form}>
+        <div className={styles.loading}>
+          <img src={`${process.env.PUBLIC_URL}/images/spinner.svg`} alt='loading' />
+        </div>
+      </div>
+    );
+
   return (
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       {status === 'success' && (
@@ -140,11 +149,6 @@ const ProductForm = ({ product }) => {
           </p>
         </div>
       )}
-      {status === 'loading' && (
-        <div className={styles.loading}>
-          <img src={`${process.env.PUBLIC_URL}/images/spinner.svg`} alt='loading' />
-        </div>
-      )}
       <h2>{product ? 'Edit product' : 'New product'}</h2>
       <label>
         Name
@@ -158,7 +162,7 @@ const ProductForm = ({ product }) => {
           value={newName}
           onChange={e => setName(e.target.value)}
         />
-        {errors.name && <p>{errors.name.message}</p>}
+        {errors.name && <p className={styles.msgError}>{errors.name.message}</p>}
       </label>
       <label>
         Price

@@ -77,6 +77,8 @@
   background-color: $color-error;
 }
 
-.loading {
-  background-color: $color-loading;
+.msgError {
+  color: $color-error;
+  font-size: 14px;
+  font-weight: 500;
 }
