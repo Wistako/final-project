@@ -67,7 +67,6 @@ export const addProductRequest = product => {
 // initial state
 const initialState = {
   data: [],
-  requests: {},
 };
 
 // reducer

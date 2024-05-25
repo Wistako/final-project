@@ -31,6 +31,7 @@ export class OrdersController {
   @UseGuards(JwtAuthGuard)
   @Get('/user')
   getUserOrders(@Request() req) {
+    console.log(req.user);
     return this.ordersService.getUserOrders(req.user.id);
   }
 

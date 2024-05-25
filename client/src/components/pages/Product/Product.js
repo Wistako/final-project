@@ -29,6 +29,13 @@ const Product = () => {
     if (product && product.sizes.length > 0) {
       setCurrentSize(product.sizes[0].id);
     }
+
+    if (!product) {
+      setStatus('loading');
+      setTimeout(() => {
+        setStatus('error');
+      }, 10000);
+    }
     return () => {
       setCurrentSize(null);
       setQuantity(1);
@@ -60,6 +67,7 @@ const Product = () => {
 
   const handleAddPhoto = async e => {
     e.preventDefault();
+    setStatus('loading');
 
     const fd = new FormData();
     fd.append('image', file);
@@ -80,6 +88,7 @@ const Product = () => {
   };
 
   const handleDeletePhoto = async () => {
+    setStatus('loading');
     if (images.length === 1) return;
     const options = {
       method: 'DELETE',
@@ -95,11 +104,18 @@ const Product = () => {
     dispatch(fetchProducts());
   };
 
-  if (!product)
+  if (status === 'error')
     return (
       <div className={styles.info}>
         <p>Product not found or an error occurred</p>
         <Link to='/'>Go back</Link>
+      </div>
+    );
+
+  if (status === 'loading')
+    return (
+      <div className={styles.info}>
+        <img src={`${process.env.PUBLIC_URL}/images/spinner.svg`} alt='loading' />
       </div>
     );
 
