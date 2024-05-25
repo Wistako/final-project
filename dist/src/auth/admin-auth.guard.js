@@ -12,8 +12,7 @@ const client_1 = require("@prisma/client");
 let AdminAuthGuard = class AdminAuthGuard {
     canActivate(context) {
         const request = context.switchToHttp().getRequest();
-        if (process.env.NODE_ENV !== 'production' ||
-            request.user.role === client_1.Role.ADMIN) {
+        if (request.user.role === client_1.Role.ADMIN) {
             return true;
         }
         return false;

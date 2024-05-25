@@ -9,7 +9,7 @@ export class AdminAuthGuard implements CanActivate {
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
     if (
-      process.env.NODE_ENV !== 'production' ||
+      // process.env.NODE_ENV !== 'production' ||
       request.user.role === Role.ADMIN
     ) {
       return true;

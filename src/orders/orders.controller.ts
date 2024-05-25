@@ -32,7 +32,7 @@ export class OrdersController {
   @Get('/user')
   getUserOrders(@Request() req) {
     console.log(req.user);
-    return this.ordersService.getUserOrders(req.user.id);
+    return this.ordersService.getUserOrders(req.user.sub);
   }
 
   @UseGuards(OptionalJwtAuthGuard)
@@ -40,7 +40,7 @@ export class OrdersController {
   create(@Body() orderData: CreateOrderDTO, @Req() req) {
     console.log(req.user);
     console.log('Creating order');
-    return this.ordersService.create(orderData, req.user?.id);
+    return this.ordersService.create(orderData, req.user?.sub);
   }
 
   @UseGuards(JwtAuthGuard, AdminAuthGuard)
