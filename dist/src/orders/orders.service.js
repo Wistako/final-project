@@ -42,6 +42,7 @@ let OrdersService = class OrdersService {
         return this.prisma.order.findUnique({ where: { id } });
     }
     getUserOrders(userId) {
+        console.log('getUserOrders service: ', userId);
         return this.prisma.order.findMany({
             where: { userId },
             include: { items: true },

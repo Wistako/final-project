@@ -8,7 +8,6 @@ import {
   Post,
   Put,
   Req,
-  Request,
   UseGuards,
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
@@ -30,15 +29,16 @@ export class OrdersController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/user')
-  getUserOrders(@Request() req) {
-    console.log(req.user);
-    return this.ordersService.getUserOrders(req.user.sub);
+  getUserOrders(@Req() req) {
+    console.log('Getting user orders');
+    console.log('getUser req', req.user);
+    return this.ordersService.getUserOrders(req.user.id);
   }
 
   @UseGuards(OptionalJwtAuthGuard)
   @Post('/')
   create(@Body() orderData: CreateOrderDTO, @Req() req) {
-    console.log(req.user);
+    console.log('create order, req: ', req.user);
     console.log('Creating order');
     return this.ordersService.create(orderData, req.user?.sub);
   }

@@ -26,6 +26,7 @@ export class OrdersService {
   }
 
   public getUserOrders(userId: string): Promise<Order[]> | null {
+    console.log('getUserOrders service: ', userId);
     return this.prisma.order.findMany({
       where: { userId },
       include: { items: true },

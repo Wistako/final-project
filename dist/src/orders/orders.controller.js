@@ -27,12 +27,13 @@ let OrdersController = class OrdersController {
         return this.ordersService.getAll();
     }
     getUserOrders(req) {
-        console.log(req.user);
-        return this.ordersService.getUserOrders(req.user.sub);
+        console.log('Getting user orders');
+        console.log('getUser req', req.user);
+        return this.ordersService.getUserOrders(req.user.id);
     }
     create(orderData, req) {
         var _a;
-        console.log(req.user);
+        console.log('create order, req: ', req.user);
         console.log('Creating order');
         return this.ordersService.create(orderData, (_a = req.user) === null || _a === void 0 ? void 0 : _a.sub);
     }
@@ -54,7 +55,7 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(jwt_auth_guard_1.JwtAuthGuard),
     (0, common_1.Get)('/user'),
-    __param(0, (0, common_1.Request)()),
+    __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
