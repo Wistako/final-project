@@ -20,7 +20,7 @@
     }
   }
 
-  ul {
+  .list {
     display: flex;
     align-items: center;
     list-style: none;
@@ -50,6 +50,21 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+    }
+  }
+}
+
+
+@media (max-width: 768px) {
+  .navigation {
+
+    .list {
+      flex-direction: column;
+      align-items: end;
+
+      li:last-child {
+        order: -1;
+      }
     }
   }
 }

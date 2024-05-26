@@ -1,0 +1,58 @@
+.toggleWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  justify-content: end;
+  width: 100%;
+}
+
+.toggleContainer {
+  width: 60px;
+  height: 30px;
+  background-color: #ccc;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.toggleContainer.toggled {
+  background-color: #4caf50;
+  justify-content: flex-end;
+}
+
+.toggleCircle {
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+.navigation {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.navigation.show {
+  display: flex;
+  align-items: end;
+  text-align: right;
+}
+
+@media (min-width: 768px) {
+  .toggleContainer {
+    display: none;
+  }
+
+  .navigation {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+  }
+}

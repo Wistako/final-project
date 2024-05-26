@@ -23,7 +23,7 @@ const CartProduct = ({ product, quantity, size, id, description }) => {
         <p>{size.size.name}</p>
         <p>${isNaN(price) ? '0' : price}</p>
       </div>
-      <div className={styles.item}>
+      <div className={styles.productActions}>
         <textarea
           id='description'
           value={description}
