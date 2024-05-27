@@ -42,15 +42,16 @@ const Order = ({ order, role }) => {
       </div>
       <p>Items:</p>
       <ul className={styles.products}>
-        {order.items.map(item => (
-          <li key={item.id} className={styles.product}>
-            <p>
-              {item.product.name} {item.size.name}
-            </p>
-            <p>Price: ${item.product.price}</p>
-            <p>Quantity: {item.quantity}</p>
-          </li>
-        ))}
+        {order &&
+          order.items.map(item => (
+            <li key={item.id} className={styles.product}>
+              <p>
+                {item.product.name} {item.size.name}
+              </p>
+              <p>Price: ${item.product.price}</p>
+              <p>Quantity: {item.quantity}</p>
+            </li>
+          ))}
       </ul>
     </div>
   );
