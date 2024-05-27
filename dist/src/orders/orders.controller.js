@@ -33,7 +33,7 @@ let OrdersController = class OrdersController {
     }
     create(orderData, req) {
         var _a;
-        console.log('create order, req: ', req.user);
+        console.log('create order, req: ', req);
         console.log('Creating order');
         return this.ordersService.create(orderData, (_a = req.user) === null || _a === void 0 ? void 0 : _a.sub);
     }
