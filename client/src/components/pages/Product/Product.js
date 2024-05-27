@@ -124,7 +124,13 @@ const Product = () => {
     <section className={styles.root}>
       {user && user.role === 'ADMIN' && (
         <div className={styles.adminPanel}>
-          <PrimaryButton onClick={() => navigate(`/product/edit/${id}`)}>
+          <PrimaryButton
+            onClick={() => {
+              // eslint-disable-next-line no-debugger
+              debugger;
+              navigate(`/product/edit/${id}`);
+            }}
+          >
             Edit product
           </PrimaryButton>
           <PrimaryButton onClick={() => setModalOpen(true)}>Add photo</PrimaryButton>

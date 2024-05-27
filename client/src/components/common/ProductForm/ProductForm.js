@@ -81,6 +81,12 @@ const ProductForm = ({ product }) => {
         return res.json();
       })
       .then(res => {
+        setCategory('');
+        setDescription('');
+        setName('');
+        setPrice('');
+        setImage('');
+
         if (status === 'success')
           product ? dispatch(updateProduct(res.product)) : dispatch(addProduct(res));
       })

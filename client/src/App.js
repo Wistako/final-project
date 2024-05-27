@@ -20,6 +20,7 @@ import Cart from './components/pages/Cart/Cart';
 import Checkout from './components/pages/Checkout/Chceckout';
 import AdminPanel from './components/pages/AdminPanel/AdminPanel';
 import Orders from './components/pages/Orders/Orders';
+import Footer from './components/layout/Footer/Footer';
 
 function App() {
   const dispatch = useDispatch();
@@ -47,26 +48,29 @@ function App() {
 
   return (
     <>
-      <Header />
-      <Container>
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/product/:id' element={<Product />} />
-          <Route path='/search/:searchPhrase' element={<div>ABCJDASD</div>} />
-          <Route path='/cart' element={<Cart />} />
-          <Route path='/cart/checkout' element={<Checkout />} />
-          <Route path='/orders' element={<Orders />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='/logout' element={<Logout />} />
-          <Route path='/admin' element={<AdminPanel />} />
-          <Route path='/admin/product/new' element={<NewProduct />} />
-          <Route path='/admin/product/edit/:id' element={<EditProduct />} />
-          <Route path='/admin/product/stock' element={<UpdateStock />} />
+      <div>
+        <Header />
+        <Container>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/product/:id' element={<Product />} />
+            <Route path='/search/:searchPhrase' element={<div>ABCJDASD</div>} />
+            <Route path='/cart' element={<Cart />} />
+            <Route path='/cart/checkout' element={<Checkout />} />
+            <Route path='/orders' element={<Orders />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+            <Route path='/logout' element={<Logout />} />
+            <Route path='/admin' element={<AdminPanel />} />
+            <Route path='/admin/product/new' element={<NewProduct />} />
+            <Route path='/admin/product/edit/:id' element={<EditProduct />} />
+            <Route path='/admin/product/stock' element={<UpdateStock />} />
 
-          <Route path='*' element={<Navigate to='/' />} />
-        </Routes>
-      </Container>
+            <Route path='*' element={<Navigate to='/' />} />
+          </Routes>
+        </Container>
+      </div>
+      <Footer />
     </>
   );
 }
