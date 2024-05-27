@@ -7,11 +7,6 @@ export declare class ProductsController {
     private productsService;
     constructor(productsService: ProductsService);
     getAll(): import(".prisma/client").Prisma.PrismaPromise<({
-        images: {
-            id: string;
-            name: string;
-            productId: string;
-        }[];
         category: {
             id: string;
             name: string;
@@ -27,6 +22,11 @@ export declare class ProductsController {
             sizeId: string;
             stock: number;
         })[];
+        images: {
+            id: string;
+            name: string;
+            productId: string;
+        }[];
     } & {
         id: string;
         name: string;
@@ -37,11 +37,6 @@ export declare class ProductsController {
         updatedAt: Date;
     })[]>;
     getById(id: string): import(".prisma/client").Prisma.Prisma__ProductClient<{
-        images: {
-            id: string;
-            name: string;
-            productId: string;
-        }[];
         category: {
             id: string;
             name: string;
@@ -51,6 +46,11 @@ export declare class ProductsController {
             productId: string;
             sizeId: string;
             stock: number;
+        }[];
+        images: {
+            id: string;
+            name: string;
+            productId: string;
         }[];
     } & {
         id: string;
@@ -76,11 +76,6 @@ export declare class ProductsController {
     updateStock(stock: UpdateStockDto): Promise<{
         message: string;
         product: {
-            images: {
-                id: string;
-                name: string;
-                productId: string;
-            }[];
             category: {
                 id: string;
                 name: string;
@@ -96,6 +91,11 @@ export declare class ProductsController {
                 sizeId: string;
                 stock: number;
             })[];
+            images: {
+                id: string;
+                name: string;
+                productId: string;
+            }[];
         } & {
             id: string;
             name: string;

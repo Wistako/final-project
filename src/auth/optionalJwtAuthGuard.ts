@@ -5,11 +5,11 @@ import { AuthGuard } from '@nestjs/passport';
 export class OptionalJwtAuthGuard extends AuthGuard('jwt') {
   canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
-    if (!request.user) {
+    if (!request.cookies?.jwt) {
       console.log('No user found in request');
       return true;
     }
-    console.log('User found in request: ', request.user);
+    console.log('User found in request');
     return super.canActivate(context);
   }
 }
