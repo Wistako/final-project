@@ -14,6 +14,7 @@ const Register = () => {
   } = useForm();
 
   const onSubmit = data => {
+    setStatus('loading');
     const options = {
       method: 'POST',
       headers: {
@@ -113,9 +114,6 @@ const Register = () => {
         />
         <button type='submit'>Register</button>
       </form>
-      <Link to='/'>Home</Link>
-      <div />
-      <Link to='/login'>Login</Link>
     </Container>
   );
 };
