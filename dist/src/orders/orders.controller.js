@@ -34,7 +34,7 @@ let OrdersController = class OrdersController {
     create(orderData, req) {
         var _a;
         console.log('Creating order');
-        return this.ordersService.create(orderData, (_a = req.user) === null || _a === void 0 ? void 0 : _a.sub);
+        return this.ordersService.create(orderData, (_a = req.user) === null || _a === void 0 ? void 0 : _a.id);
     }
     async update(id, body) {
         if (!this.ordersService.getById(id))

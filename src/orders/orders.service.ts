@@ -29,7 +29,7 @@ export class OrdersService {
     console.log('getUserOrders service: ', userId);
     return this.prisma.order.findMany({
       where: { userId },
-      include: { items: true },
+      include: { items: { include: { product: true, size: true } } },
     });
   }
 

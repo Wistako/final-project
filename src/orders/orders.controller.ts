@@ -39,7 +39,7 @@ export class OrdersController {
   @Post('/')
   create(@Body() orderData: CreateOrderDTO, @Req() req) {
     console.log('Creating order');
-    return this.ordersService.create(orderData, req.user?.sub);
+    return this.ordersService.create(orderData, req.user?.id);
   }
 
   @UseGuards(JwtAuthGuard, AdminAuthGuard)
