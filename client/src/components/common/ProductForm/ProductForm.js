@@ -206,7 +206,7 @@ const ProductForm = ({ product }) => {
         </label>
       )}
       <div className={styles.btns}>
-        {product && <SecondaryButton onClick={hanldeDelete}>Delete</SecondaryButton>}
+        {product && <SecondaryButton onClick={() => hanldeDelete}>Delete</SecondaryButton>}
         <PrimaryButton type='submit'>{product ? 'Edit' : 'Add'}</PrimaryButton>
       </div>
     </form>
