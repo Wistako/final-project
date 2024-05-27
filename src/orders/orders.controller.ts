@@ -38,7 +38,6 @@ export class OrdersController {
   @UseGuards(OptionalJwtAuthGuard)
   @Post('/')
   create(@Body() orderData: CreateOrderDTO, @Req() req) {
-    console.log('create order, req: ', req);
     console.log('Creating order');
     return this.ordersService.create(orderData, req.user?.sub);
   }

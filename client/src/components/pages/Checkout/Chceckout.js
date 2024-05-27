@@ -14,12 +14,14 @@ const Checkout = () => {
         <div className={styles.form}>
           <AddressForm />
         </div>
-        <div className={styles.summary}>
-          <h2>Summary</h2>
-          <p>Total price: ${isNaN(totalPrice) ? '0' : totalPrice}</p>
-          <p>Shipping: ${DELIVERY_PRICE}</p>
-          <p>Total: ${isNaN(totalPrice) ? '0' : totalPrice + DELIVERY_PRICE}</p>
-        </div>
+        {cart.length > 0 && (
+          <div className={styles.summary}>
+            <h2>Summary</h2>
+            <p>Total price: ${isNaN(totalPrice) ? '0' : totalPrice}</p>
+            <p>Shipping: ${DELIVERY_PRICE}</p>
+            <p>Total: ${isNaN(totalPrice) ? '0' : totalPrice + DELIVERY_PRICE}</p>
+          </div>
+        )}
       </section>
     </div>
   );
