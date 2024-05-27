@@ -34,7 +34,7 @@ const Product = () => {
       setStatus('loading');
       setTimeout(() => {
         setStatus('error');
-      }, 10000);
+      }, 5000);
     }
     return () => {
       setCurrentSize(null);
