@@ -9,6 +9,7 @@ The site has an administrative panel where you can:
 - add new products,
 - change their stock quantity,
 - check and update order status.
+- 
 Upon entering the page of a single product, you can:
 - edit the given product,
 - add or remove photos.
