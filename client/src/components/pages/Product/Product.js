@@ -32,9 +32,6 @@ const Product = () => {
 
     if (!product) {
       setStatus('loading');
-      setTimeout(() => {
-        if (!product) setStatus('error');
-      }, 10000);
     }
     return () => {
       setCurrentSize(null);
@@ -42,12 +39,6 @@ const Product = () => {
       setStatus('idle');
     };
   }, [product]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setStatus('idle');
-    }, 4000);
-  }, [status]);
 
   useEffect(() => {
     setQuantity(1);

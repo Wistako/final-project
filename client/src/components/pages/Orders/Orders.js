@@ -18,6 +18,14 @@ const Orders = () => {
 
   if (!user) return <Navigate to='/' />;
 
+  if (orders.length === 0)
+    return (
+      <div className={styles.root}>
+        <h2 className={styles.title}>Orders</h2>
+        <p>No orders yet</p>
+      </div>
+    );
+
   return (
     <div className={styles.root}>
       <h2 className={styles.title}>Orders</h2>

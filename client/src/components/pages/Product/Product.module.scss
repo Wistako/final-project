@@ -22,6 +22,7 @@
     height: 500px;
     border-radius: 10px;
     box-shadow: 0 5px 15px $color-primary;
+    margin-bottom: 120px;
 
     .image {
       width: 100%;
@@ -119,13 +120,15 @@
 
       &:nth-child(2) {
         position: absolute;
+        width: 100%;
+        text-align: center;
       }
     }
     
     &:hover {
       box-shadow: 0 5px 15px $color-grey;
       
-      p {
+      p:first-child {
         box-shadow: 0 0 1px $color-primary;
         background-color: $color-secondary;
         border-radius: 3px;
