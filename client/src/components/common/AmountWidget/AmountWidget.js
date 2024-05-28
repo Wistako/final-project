@@ -12,7 +12,11 @@ const AmountWidget = ({ value, onChange, vertical, disabled }) => {
       >
         -
       </button>
-      <input type='number' value={value} onChange={e => onChange(e.target.value)} />
+      <input
+        type='number'
+        value={value === '' ? 0 : parseInt(value, 10)}
+        onChange={e => onChange(e.target.value)}
+      />
       <button type='button' onClick={() => onChange(value + 1)} disabled={disabled}>
         +
       </button>

@@ -19,20 +19,23 @@
     position: relative;
     margin: 0;
     width: 50%;
+    height: 500px;
     border-radius: 10px;
     box-shadow: 0 5px 15px $color-primary;
 
     .image {
       width: 100%;
       height: 100%;
-      max-height: 440px;
       border-radius: 10px;
     }
     .thumbs {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%, calc(100% + 10px));
       display: flex;
       justify-content: center;
       gap: 10px;
-      margin-top: 20px;
 
       img {
         width: 100px;
@@ -92,6 +95,7 @@
   }
 
   .size {
+    position: relative;
     padding: 0;
     width: 38px;
     height: 38px;
@@ -112,6 +116,10 @@
       font-size: 16px;
       font-weight: 700;
       color: $color-grey;
+
+      &:nth-child(2) {
+        position: absolute;
+      }
     }
     
     &:hover {
@@ -235,9 +243,11 @@
       width: 100%;
       padding: 23px 20px;
     }
-
+    
     .images .thumbs {
-      justify-content: flex-end;
+      left: auto;
+      right: 0;
+      transform: translate(-20px, calc(100% + 10px));
     }
   } 
 }
@@ -256,11 +266,6 @@
     .content {
       width: 100%;
       padding: 23px 20px;
-    }
-
-    .images .thumbs {
-      justify-content: center;
-      padding-bottom: 12px;
     }
 
     .sizesBox {

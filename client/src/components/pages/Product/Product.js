@@ -33,8 +33,8 @@ const Product = () => {
     if (!product) {
       setStatus('loading');
       setTimeout(() => {
-        setStatus('error');
-      }, 5000);
+        if (!product) setStatus('error');
+      }, 10000);
     }
     return () => {
       setCurrentSize(null);
@@ -54,9 +54,11 @@ const Product = () => {
   }, [currentSize]);
 
   const changeQuantity = value => {
-    const parsedValue = parseInt(value, 10);
+    let parsedValue = parseInt(value, 10);
     if (parsedValue < 1 || parsedValue > stock) return;
-    setQuantity(value);
+    parsedValue = parseInt(value, 10);
+    setQuantity(parsedValue);
+    if (value === '') setQuantity(0);
   };
 
   const handleAddToCart = () => {
@@ -119,18 +121,14 @@ const Product = () => {
       </div>
     );
 
+  if (!product) return null;
+
   const { name, images, price, sizes, description } = product;
   return (
     <section className={styles.root}>
       {user && user.role === 'ADMIN' && (
         <div className={styles.adminPanel}>
-          <PrimaryButton
-            onClick={() => {
-              // eslint-disable-next-line no-debugger
-              debugger;
-              navigate(`/product/edit/${id}`);
-            }}
-          >
+          <PrimaryButton onClick={() => navigate(`/product/edit/${id}`)}>
             Edit product
           </PrimaryButton>
           <PrimaryButton onClick={() => setModalOpen(true)}>Add photo</PrimaryButton>
@@ -178,17 +176,15 @@ const Product = () => {
             {sizes.map(size => {
               if (size.stock === 0) return null;
               return (
-                <>
-                  <button
-                    key={size.id}
-                    className={`${styles.size} ${currentSize === size.id ? styles.active : ''}`}
-                    onClick={() => setCurrentSize(size.id)}
-                    type='button'
-                  >
-                    <p>{size.size.name}</p>
-                  </button>
+                <button
+                  key={size.id}
+                  className={`${styles.size} ${currentSize === size.id ? styles.active : ''}`}
+                  onClick={() => setCurrentSize(size.id)}
+                  type='button'
+                >
+                  <p>{size.size.name}</p>
                   {user && user.role === 'ADMIN' && <p>{size.stock}</p>}
-                </>
+                </button>
               );
             })}
           </div>

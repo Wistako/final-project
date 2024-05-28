@@ -14,13 +14,13 @@ Upon entering the page of a single product, you can:
 - edit the given product,
 - add or remove photos.
 
-To log in to the admin account, enter:
-email: admin@admin.pl
-password: admin
 
 ## DEMO
 [Render](https://final-project-63jf.onrender.com)
 
+To log in to the admin account, enter:
+email: admin@admin.pl
+password: admin
 
 
 ## Installation
